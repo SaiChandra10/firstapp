@@ -19,7 +19,7 @@ function TimeBased () {
     console.log(date,text,style);
     return(
     <div>
-        <h1 className={style}>{text}, okay sai chandra</h1>
+        <h1 className={style}>{text}</h1>
     </div>
     )
 
