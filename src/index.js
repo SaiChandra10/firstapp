@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Test from './Test';
 import reportWebVitals from './reportWebVitals';
-
+import CopyRight from './CopyRight';
+import TimeBased from './TimeBased';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+
+    <TimeBased />
+    
+
 );
 
 // If you want to start measuring performance in your app, pass a function

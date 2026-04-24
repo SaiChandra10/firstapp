@@ -1,7 +1,6 @@
-//import logo from './logo.svg';
-//import './App.css';
 
-function App() {
+
+function Test() {
 
   const lucky = 7;
   const name = "Sai Chandra"
@@ -13,4 +12,4 @@ function App() {
   );
 }
 
-export default App;
+export default Test;
