@@ -1,5 +1,5 @@
 import "./TimeBased.css"
-
+import React from "react";
 function getText(date){
     if(date >= 6 && date <=12) return "Good Morning";
     else if(date > 12 && date <= 20) return "Good AfterNoon";
@@ -13,7 +13,7 @@ function getSytle(date){
 }
 
 function TimeBased () {
-    const date = new Date(2026,1,1,22).getHours();
+    const date = new Date().getHours();
     const text = getText(date);
     const style = getSytle(date);
     console.log(date,text,style);
