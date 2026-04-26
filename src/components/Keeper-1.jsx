@@ -16,12 +16,22 @@ import KeeperHeader from './KeeperHeader';
 import KeeperFooter from './KeeperFooter';
 import KeeperBody from './KeeperBody'
 import './Keeper-1.css';
+import notes from "./notes";
+
+
 
 function Keeper(){
     return(
         <div> 
             <KeeperHeader />
-            <KeeperBody />
+            {notes.map( noteItem => (
+                         <KeeperBody
+                            key = {noteItem.key}
+                            title = {noteItem.title}
+                            content = {noteItem.content}
+                            />
+                    ))}
+            {/* <KeeperBody title = "This is the note title" content = "This is the note content"/> */}
             <KeeperFooter />
         </div>
         
