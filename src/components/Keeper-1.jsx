@@ -11,24 +11,36 @@
 
 //HINT: You will need to study the classes in teh styles.css file to appy styling.
 
-import React from "react";
+import React, { useState } from "react";
 import KeeperHeader from './KeeperHeader';
 import KeeperFooter from './KeeperFooter';
 import KeeperBody from './KeeperBody'
+import KeeperNotesCreate from './KeeperNotesCreate'
 import './Keeper-1.css';
-import notes from "./notes";
+//import notes from "./notes";
 
 
 
 function Keeper(){
+    const [notes,setNotes] = useState([]);
+    function handleClick(title,content,event){
+        setNotes((preNotes) => [...preNotes, {title:title,content:content}])
+    }
+    function handleDelete(id){
+        console.log(id);
+        setNotes(preNotes => preNotes.filter((item,index)=> index !== id));
+    }
     return(
         <div> 
             <KeeperHeader />
-            {notes.map( noteItem => (
+            <KeeperNotesCreate onAdd={handleClick}/>
+            {notes.map( (noteItem,index) => (
                          <KeeperBody
-                            key = {noteItem.key}
+                            key = {index}
+                            id = {index}
                             title = {noteItem.title}
                             content = {noteItem.content}
+                            onDelete = {handleDelete}
                             />
                     ))}
             {/* <KeeperBody title = "This is the note title" content = "This is the note content"/> */}
