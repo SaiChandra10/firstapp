@@ -11,33 +11,48 @@
 
 //HINT: You will need to study the classes in teh styles.css file to appy styling.
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import KeeperHeader from './KeeperHeader';
 import KeeperFooter from './KeeperFooter';
 import KeeperBody from './KeeperBody'
 import KeeperNotesCreate from './KeeperNotesCreate'
 import './Keeper-1.css';
-//import notes from "./notes";
-
+import { fetchNotes , addNotes, deleteNotes } from "./notes";
 
 
 function Keeper(){
     const [notes,setNotes] = useState([]);
+    
+    useEffect(() => {
+        const loadNotes = async () => {
+            const data = await fetchNotes();
+            setNotes(data);
+        };
+        loadNotes();
+    }, []);
+    
     function handleClick(title,content,event){
-        setNotes((preNotes) => [...preNotes, {title:title,content:content}])
+        //setNotes((preNotes) => [...preNotes, {id:preNotes.length + 1, title:title,content:content}])
+        addNotes({title:title,content:content}).then(() => {
+        fetchNotes().then(data => setNotes(data));
+    });
     }
     function handleDelete(id){
         console.log(id);
-        setNotes(preNotes => preNotes.filter((item,index)=> index !== id));
+        deleteNotes(id).then(() => {
+            fetchNotes().then(data => setNotes(data));
+        })
+        //setNotes(preNotes => preNotes.filter((item)=> item.id !== id));
     }
     return(
         <div> 
             <KeeperHeader />
             <KeeperNotesCreate onAdd={handleClick}/>
-            {notes.map( (noteItem,index) => (
+            {console.log(notes,"from keeper")}
+            {notes.map( (noteItem) => (
                          <KeeperBody
-                            key = {index}
-                            id = {index}
+                            key = {noteItem.id}
+                            id = {noteItem.id}
                             title = {noteItem.title}
                             content = {noteItem.content}
                             onDelete = {handleDelete}
