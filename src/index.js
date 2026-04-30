@@ -4,8 +4,12 @@ import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import './components/Keeper-1.css'
 import './components/todo_list/todo.css'
+import { Provider } from 'react-redux';
+import store  from './components/notesUpdated';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <App />
+    <Provider store={store}>
+        <App />
+    </Provider>
 );
 

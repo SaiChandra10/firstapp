@@ -19,21 +19,37 @@ import KeeperNotesCreate from './KeeperNotesCreate'
 import './Keeper-1.css';
 import { fetchNotes , addNotes, deleteNotes } from "./notes";
 
+import {fetchTitles} from './notesUpdated'
+import {useDispatch, useSelector} from "react-redux"
 
 function Keeper(){
     const [notes,setNotes] = useState([]);
+    const dispatch = useDispatch();
     
-    useEffect(() => {
-        const loadNotes = async () => {
-            const data = await fetchNotes();
-            setNotes(data);
-        };
-        loadNotes();
-    }, []);
+    // useEffect(() => {
+    //     const loadNotes = async () => {
+    //         const data = await fetchNotes();
+    //         setNotes(data);
+    //     };
+    //     loadNotes();
+    // }, []);
+
+    let data = useSelector((state) => state);
     
+    useEffect(()=>{
+        dispatch(fetchTitles());
+    },[dispatch]);
+
+    useEffect(()=>{
+        if(data.title.titles){
+            setNotes(data.title.titles);
+        }
+    },[data.title.titles]);
+
     function handleClick(title,content,event){
         //setNotes((preNotes) => [...preNotes, {id:preNotes.length + 1, title:title,content:content}])
-        addNotes({title:title,content:content}).then(() => {
+        addNotes({title:title,content:content})
+        .then(() => {
         fetchNotes().then(data => setNotes(data));
     });
     }
