@@ -17,9 +17,9 @@ import KeeperFooter from './KeeperFooter';
 import KeeperBody from './KeeperBody'
 import KeeperNotesCreate from './KeeperNotesCreate'
 import './Keeper-1.css';
-import { fetchNotes , addNotes, deleteNotes } from "./notes";
+//import { fetchNotes , addNotes, deleteNotes } from "./notes";
 
-import {fetchTitles} from './notesUpdated'
+import {fetchTitles, addTitle, deleteTitle} from './notesUpdated'
 import {useDispatch, useSelector} from "react-redux"
 
 function Keeper(){
@@ -48,16 +48,18 @@ function Keeper(){
 
     function handleClick(title,content,event){
         //setNotes((preNotes) => [...preNotes, {id:preNotes.length + 1, title:title,content:content}])
-        addNotes({title:title,content:content})
-        .then(() => {
-        fetchNotes().then(data => setNotes(data));
-    });
+        // addNotes({title:title,content:content})
+        // .then(() => {
+        // fetchNotes().then(data => setNotes(data));
+        //});
+        dispatch(addTitle({title:title,content:content}));
     }
     function handleDelete(id){
         console.log(id);
-        deleteNotes(id).then(() => {
-            fetchNotes().then(data => setNotes(data));
-        })
+        // deleteNotes(id).then(() => {
+        //     fetchNotes().then(data => setNotes(data));
+        // })
+        dispatch(deleteTitle(id));
         //setNotes(preNotes => preNotes.filter((item)=> item.id !== id));
     }
     return(

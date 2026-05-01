@@ -17,10 +17,41 @@ let fetchTitles = createAsyncThunk("gettingTitles", async() => {
         }
 });
 
+let addTitle = createAsyncThunk("AddingTitle", async(note) => {
+    try{
+        const response = await axios.post('http://localhost:4000/add',{
+            title : note.title,
+            content : note.content
+        });
+        console.log("Data added:", response.data);
+        // Fetch all notes after adding to get updated list
+        const allNotesResponse = await axios.get('http://localhost:4000/');
+        return allNotesResponse.data;
+    } catch(error){
+        console.error("Error while adding notes from toolkit", error);
+        return [];
+    }
+});
+
+let deleteTitle = createAsyncThunk("deletingTitle", async(id) => {
+    try{
+        const URL = 'http://localhost:4000/delete/'+id
+        const response = await axios.delete(URL);
+        console.log("Data added:", response.data);
+        // Fetch all notes after adding to get updated list
+        const allNotesResponse = await axios.get('http://localhost:4000/');
+        return allNotesResponse.data;
+    }catch(error){
+        console.error("Error while adding notes from toolkit", error);
+        return [];
+    }
+})
+
 const titleSlice = createSlice({
     name:"title",
     initialState:initialData,
     extraReducers : (builder) => {
+        //getting titles
         builder.addCase(fetchTitles.pending,(state)=>{ state.status = "loading" })
         .addCase(fetchTitles.fulfilled,(state,action)=>{
             state.status = "complete";
@@ -30,7 +61,27 @@ const titleSlice = createSlice({
             state.status = "rejected";
             state.titles = [];
             state.error = action.error.message;
-        })
+        });
+
+        //adding title
+        builder.addCase(addTitle.fulfilled, (state,action)=>{
+            state.status = "complete";
+            state.titles = action.payload;
+        }).addCase(addTitle.rejected,(state,action)=>{
+            state.status = "rejected";
+            state.titles = action.payload;
+            state.error = action.error.message;
+        });
+
+        //deleting tilte
+        builder.addCase(deleteTitle.fulfilled, (state,action)=>{
+            state.status = "complete";
+            state.titles = action.payload;
+        }).addCase(deleteTitle.rejected,(state,action)=>{
+            state.status = "rejected";
+            state.titles = action.payload;
+            state.error = action.error.message;
+        });
     }
 });
 
@@ -41,4 +92,4 @@ const store = configureStore({
 });
 
 export default store;
-export {fetchTitles}
+export {fetchTitles , addTitle, deleteTitle}
